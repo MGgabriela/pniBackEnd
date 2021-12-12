@@ -1,9 +1,12 @@
 package br.com.pni.controller.dto;
 
-/*
- * Data Transfer Object
- * Dados que vão da API para o cliente
- *
+/**
+*
+* @author gabriela
+* *
+* Data Transfer Object
+* Dados que vão da API para o cliente
+*
 */
 import java.time.LocalDateTime;
 import java.util.List;

@@ -13,10 +13,7 @@ import br.com.pni.model.ContractsPorUrgencia;
 
 /**
  *
- * @author gabriela
- * *
- * Data Transfer Object
- * Dados que vão da API para o cliente
+ * @author gabriela * Data Transfer Object (Dados que vão da API para o cliente)
  *
  */
 

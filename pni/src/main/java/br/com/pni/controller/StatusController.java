@@ -40,44 +40,43 @@ public class StatusController {
 
 	@GetMapping
 	public List<StatusDto> lista(String nomeStatus) {
-		if(nomeStatus == null) {
+		if (nomeStatus == null) {
 			List<Status> x = statusRepository.findAll();
 			return StatusDto.converter(x);
 		}
 		List<Status> x = statusRepository.findByNome(nomeStatus);
 		return StatusDto.converter(x);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<StatusDto> detalhar(@PathVariable long id) {
-	 	Optional<Status> status = statusRepository.findById(id);
-	 	if(status.isPresent()) {
-	 		return ResponseEntity.ok(new StatusDto(status.get()));
-	 	}
-	 	return ResponseEntity.notFound().build();
+		Optional<Status> status = statusRepository.findById(id);
+		if (status.isPresent()) {
+			return ResponseEntity.ok(new StatusDto(status.get()));
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
-	public ResponseEntity<StatusDto> cadastrar(@RequestBody @Valid StatusForm form, UriComponentsBuilder uriBuilder) {		
+	public ResponseEntity<StatusDto> cadastrar(@RequestBody @Valid StatusForm form, UriComponentsBuilder uriBuilder) {
 		Status s = form.converter();
-		statusRepository.save(s);	
+		statusRepository.save(s);
 		URI uri = uriBuilder.path("/status/{id}").buildAndExpand(s.getId()).toUri();
 		return ResponseEntity.created(uri).body(new StatusDto(s));
 	}
-	
+
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<StatusDto> alteraStatus(@PathVariable long id, @RequestBody @Valid AlterStatusForm form) {		
+	public ResponseEntity<StatusDto> alteraStatus(@PathVariable long id, @RequestBody @Valid AlterStatusForm form) {
 		Optional<Status> op = statusRepository.findById(id);
-		if(op.isPresent()) {
+		if (op.isPresent()) {
 			Status s = form.atualizar(id, statusRepository);
 			return ResponseEntity.ok(new StatusDto(s));
 		}
-		return ResponseEntity.notFound().build();	
-		
+		return ResponseEntity.notFound().build();
+
 	}
-	
-	
+
 	@GetMapping(value = "/exportpdf", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<InputStreamResource> employeeReports(HttpServletResponse response) throws IOException {
 
@@ -92,6 +91,5 @@ public class StatusController {
 		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
 				.body(new InputStreamResource(bis));
 	}
-	
-	
+
 }
